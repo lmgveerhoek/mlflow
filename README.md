@@ -36,6 +36,8 @@ The `.env` file contains important configuration settings. Make sure to set thes
 - `MINIO_ROOT_USER`, `MINIO_ROOT_PASSWORD`: MinIO access credentials
 - `MINIO_BUCKET_NAME`: The S3 bucket name for artifact storage
 - `MLFLOW_DOMAIN`: The domain name for accessing the MLflow server
+- `MLFLOW_TRACKING_USERNAME`: Username for MLflow authentication (default: admin)
+- `MLFLOW_TRACKING_PASSWORD`: Password for MLflow authentication (default: password)
 
 ## Managing the Services
 
@@ -90,8 +92,29 @@ Remember to adjust hostnames, credentials, and paths according to your setup whe
 ## Accessing Services
 
 - MLflow UI: `http://<MLFLOW_DOMAIN>:5000`
+  - Username: `MLFLOW_TRACKING_USERNAME` (default: admin)
+  - Password: `MLFLOW_TRACKING_PASSWORD` (default: password)
 - MinIO Console: `http://localhost:9001`
 - PostgreSQL: `localhost:5432` (accessible from host machine)
+
+## Traefik Network (Optional)
+
+If you're using Traefik as a reverse proxy, you may need to create a network for it. This step is optional and should be commented out if not needed.
+
+To create a network for Traefik:
+
+```
+docker network create traefik-public
+```
+
+Make sure to update your `docker-compose.yml` file to use this network if you're integrating with Traefik. The network configuration in the `docker-compose.yml` file should look like this:
+
+```yaml
+networks:
+  # Uncomment the following lines if using Traefik
+  # traefik_proxy:
+  #   external: true
+```
 
 ## Troubleshooting
 

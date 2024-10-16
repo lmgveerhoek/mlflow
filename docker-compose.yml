@@ -64,6 +64,8 @@ services:
       MLFLOW_S3_ENDPOINT_URL: http://minio:9000
       AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER}
       AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
+      MLFLOW_TRACKING_USERNAME: ${MLFLOW_TRACKING_USERNAME}
+      MLFLOW_TRACKING_PASSWORD: ${MLFLOW_TRACKING_PASSWORD}
     ports:
       - "5000:5000"
     command: >
@@ -72,6 +74,7 @@ services:
       --artifacts-destination s3://${MINIO_BUCKET_NAME}
       --host 0.0.0.0
       --port 5000
+      --app-name basic-auth
     depends_on:
       - postgres
       - minio
@@ -85,5 +88,5 @@ services:
 
 networks:
   default:
-    name: traefik_proxy
+    name: traefik-proxy
     external: true
